@@ -30,7 +30,11 @@ namespace WebApplication2
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            
+            services.Configure<AppOptions>(appOptions =>
+            {
+                appOptions.DefaultConnection = Configuration.GetConnectionString("DefaultConnection");
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
