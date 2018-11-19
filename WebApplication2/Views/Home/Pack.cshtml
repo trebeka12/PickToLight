@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Pack";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+
+<style is="custom-style">
+
+    paper-icon-item {
+        margin: -13px -16px;
+    }
+
+        paper-icon-item img {
+            border-radius: 50%;
+        }
+</style>
+
+
+<div class="card">
+    <link rel="stylesheet" href="~/css/pack.css" />
+    <div>
+        <h1>Read the serial number of product!</h1>
+        <div class="form-group">
+            <textarea class="form-control" id="serialNumber" placeholder="Serial number"></textarea>
+        </div>
+        <div>
+            <a href="#" class="btn btn-primary">Pack</a>
+        </div>
+    </div>
+</div>

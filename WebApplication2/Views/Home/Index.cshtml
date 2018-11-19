@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Flex Pick to light Labor";
+}
+
+<style>
+    :host {
+        display: block;
+        --app-grid-columns: 2;
+        --app-grid-gutter: 2px;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .card {
+        margin: 24px;
+        padding: 26px;
+        height: 150px;
+        color: #003366;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        font-size: 24px;
+    }
+
+    img {
+        float: right;
+        vertical-align: middle;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>
+
+
+
+<div class="row">
+    <div class="col-sm-6">
+        <a href="Home/Unitcreation">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Unit creation</h1>
+                    <img src="~/images/station1.png" />
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6">
+        <a href="Home/Assembly">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Assembly</h1>
+                    <img src="~/images/station3.png" />
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <a href="Home/Kitting">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Kitting</h1>
+                    <img src="~/images/station2.png" />
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6">
+        <a href="Home/Pack">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Pack</h1>
+                    <img src="~/images/station4.png" />
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
