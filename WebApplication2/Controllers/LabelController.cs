@@ -14,11 +14,11 @@ namespace WebApplication2.Controllers {
 		}
 
         [HttpPost]
-        public string Print([FromBody] dynamic param) {
+        public string Print(string serial, string part) {
 			string labelPath = env.WebRootPath + "/label/SerialNumber.zpl";
 			string lbt = System.IO.File.ReadAllText(labelPath);
-			lbt = lbt.Replace("%SerialNumber%", (string)param.serialNumber);
-			lbt = lbt.Replace("%Product%", (string)param.product);
+			lbt = lbt.Replace("%SerialNumber%", serial);
+			lbt = lbt.Replace("%Product%", part);
 			lbt = lbt.Replace("%Date%", DateTime.Now.ToString("yyyy.MM.dd"));
 			return lbt;
 		}

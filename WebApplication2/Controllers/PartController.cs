@@ -40,19 +40,40 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public Product createSN([FromBody] Part p){           
+        public Part getPartByPN(string partnum)
+        {
+                if (partnum != null && partnum.Length > 0)
+                {
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        DynamicParameters parameters = new DynamicParameters();
+                        parameters.Add("@Code", partnum);
+                        var sql = "SELECT * FROM Part WHERE Code = @Code";
+                        Part mypart = connection.QueryFirst<Part>(sql, parameters);
+                        return mypart;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+        }
+        
+
+        [HttpPost]
+        public Product createSN( int param){           
             using (SqlConnection connection = new SqlConnection(connectionString)) {
                 Product pr = new Product();
                 pr.SerialNumber=System.DateTime.Now.ToString("yyyyMMddHHmmss");
-                pr.PartID=p.ID;
+                pr.PartID=param;
 	            pr.CreationTime=System.DateTime.Now;    
-                var id = connection.Insert(pr);
-                
+                var id = connection.Insert(pr);               
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@SerialNumber", pr.SerialNumber);
-                parameters.Add("@partID", p.ID);
+                parameters.Add("@partID", param);
                 var sql = "INSERT INTO [Assembly] SELECT @SerialNumber, PartID, AssemblyOrder, null FROM [BOM] WHERE ParentID = @partID";
-                connection.Execute(sql, parameters);
+                var r = connection.Execute(sql, parameters);
 
                 return connection.Get<Product>(id);
             }  

@@ -12,12 +12,34 @@
         <h1>Read the serial number of product!</h1>
     </div>
     <div class="form-group">
-        <textarea class="form-control" id="serialNumber" placeholder="Serial number"></textarea>
+        <input type="text" class="form-control" id="assSerialNumber" placeholder="Serial number">
     </div>
     <div>
-        <a href="#" class="btn btn-primary">Start</a>
+        <button type="button"  onclick="readBOMTap()" class="btn btn-secondary">Start</button>
+        <span id="snlabel"></span>
     </div>
+    <div class="second">
+        <img id="productimage" src="" item-icon height="100px">
+    </div>
+
 
 </div>
 
 
+
+<div class="card">
+    <div class="progress">
+        <div class="progress-bar bg-success" id= "assyProgress" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</div>
+
+<div class="card">
+    <div id="partreaddiv">
+        <h3 id="nextpartlabel"></h3>
+        <input type="text" class="form-control" id="partNumber" placeholder="Part number" on-keyup="_txtPartKeypress">
+        <button type="button" id="readPartTap" onclick="readPartTap()" class="btn btn-secondary" >OK</button>
+        <span id="partlabel"></span>
+    </div>
+</div>
+
+<script src="~/js/assembly-station.js"></script>

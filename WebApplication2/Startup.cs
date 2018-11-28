@@ -55,6 +55,7 @@ namespace WebApplication2
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseNodeModules(env);
 
             app.UseMvc(routes =>
             {

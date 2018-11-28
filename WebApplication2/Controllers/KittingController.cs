@@ -25,7 +25,7 @@ namespace WebApplication2.Controllers
         }      
 
         [HttpPost]      
-        public List<Part> GetBoms([FromBody] Product p)
+        public List<Part> GetBoms( Product p)
         {
             try{
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -44,7 +44,7 @@ namespace WebApplication2.Controllers
         }
         
         [HttpPost]      
-        public bool InsertToPTL([FromBody] List<Part> p)
+        public bool InsertToPTL( List<Part> p)
         {           
             try{
                 string sql = "dbo.ptlAddRequest";

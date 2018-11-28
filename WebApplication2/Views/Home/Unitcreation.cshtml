@@ -5,23 +5,20 @@
 <h3>@ViewData["Message"]</h3>
 
 
-        
-    <div class="card">
-        <link rel="stylesheet" href="~/css/unitcreation.css" />
+
+<div class="card">
+    <link rel="stylesheet" href="~/css/unitcreation.css" />
+    <div>
+        <h1>Create new Product and print label with serial number</h1>
+        <div class="form-group" >
+            <select class="form-control" id="productSelector"></select>
+        </div>
         <div>
-            <h1>Create new Product and print label with serial number</h1>
-            <div class="input-group">
-                <select class="custom-select" id="productSelector" >
-                    <option selected>Choose...</option>
-                    <option value="1">Duck</option>
-                    <option value="2">Fish</option>
-                    <option value="3">Flower</option>
-                    <option value="3">Heart</option>
-                </select>
-            </div>
-            <div>
-                <a href="#" class="btn btn-primary">Create</a>
-            </div>
+            <button type="button" id="createSNTap" onclick="createSN()" class="btn btn-secondary" disabled>Create</button>
+            <span id="responselabel"></span>
         </div>
     </div>
+</div>
+
+<script src="~/js/unit-creation-station.js"></script>
 

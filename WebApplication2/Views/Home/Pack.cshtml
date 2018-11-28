@@ -22,10 +22,13 @@
     <div>
         <h1>Read the serial number of product!</h1>
         <div class="form-group">
-            <textarea class="form-control" id="serialNumber" placeholder="Serial number"></textarea>
+            <input type="text" class="form-control" id="packSerialNumber" placeholder="Serial number">
         </div>
         <div>
-            <a href="#" class="btn btn-primary">Pack</a>
+            <button type="button" id="packButton" onclick="packSNTap()" class="btn btn-secondary">Pack</button>
+            <span id="packlabel"></span>
         </div>
     </div>
 </div>
+
+<script src="~/js/pack-station.js"></script>

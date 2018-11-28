@@ -11,10 +11,11 @@
     <div>
         <h1>Read the serial number of product!</h1>
         <div class="form-group">
-            <textarea class="form-control" id="serialNumber" placeholder="Serial number"></textarea>
+            <input type="text" class="form-control" id="serialNumber"  placeholder="Serial number">        
         </div>
         <div>
-            <a href="#" class="btn btn-primary">Kitting</a>
+            <button type="button" id="kittingSNTap" onclick="kittingSNTap()" class="btn btn-secondary" >Kitting</button>
+            <span id="kittinglabel"></span>
         </div>
     </div>
 </div>
@@ -24,5 +25,8 @@
     <link rel="stylesheet" href="~/css/kitting.css">
     <div>
         <h1>BOM list:</h1>
+        <ul class="list-group" id="bomlist"></ul>
     </div>
 </div>
+
+<script src="~/js/kitting_station.js"></script>

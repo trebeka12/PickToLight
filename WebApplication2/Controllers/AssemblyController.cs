@@ -45,7 +45,7 @@ namespace WebApplication2.Controllers
         }
         
          [HttpPost]       
-        public Part getNextBom([FromBody] Product p)
+        public Part getNextBom( Product p)
         {
             try{
                 if(p != null && p.SerialNumber.Length>0){
@@ -67,7 +67,7 @@ namespace WebApplication2.Controllers
         }
 
          [HttpPost]       
-        public int getProgress([FromBody] Product p)
+        public int getProgress( Product p)
         {
             if(p != null && p.SerialNumber.Length>0){
                 using (SqlConnection connection = new SqlConnection(connectionString))
