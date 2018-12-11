@@ -9,5 +9,6 @@ namespace WebApplication2.Models {
 		public string PartName { get; set; }
         public int PartFamilyID { get; set; }	
 		public string Code { get; set; }
+        public int Qty { get; set; }
 	}
 }

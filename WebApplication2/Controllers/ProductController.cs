@@ -35,7 +35,7 @@ using Dapper.Contrib.Extensions;
                         parameters.Add("@SerialNumber", s);
                         var sql = "SELECT * FROM Product WHERE SerialNumber = @SerialNumber";
                         Product myproduct = connection.QueryFirst<Product>(sql, parameters);
-                        connection.Update(new Product() { ID = myproduct.ID, SerialNumber=myproduct.SerialNumber, PartID=myproduct.PartID, CreationTime=myproduct.CreationTime, IsComplete = true });   
+                        connection.Update(new Product() { ID = myproduct.ID, SerialNumber=myproduct.SerialNumber, PartID=myproduct.PartID, CreationTime=myproduct.CreationTime, IsComplete = true, StationID= 4 });   
                         return myproduct;
                     }
                 }else{

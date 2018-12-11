@@ -1,8 +1,6 @@
 ﻿
 window.onload = loadProduct;
 
-
-
 async function loadProduct() {
 
         $.ajax({
@@ -73,6 +71,7 @@ async function localpost(label) {
         method: "POST",
         url: "http://localhost:5002/api/print",
         dataType: "json",
-        data: { printerName: "Zebra", labelContent: label }
+        data: { printerName: "zebra", labelContent: label }
     })
 }
+

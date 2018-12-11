@@ -12,5 +12,6 @@ namespace WebApplication2.Models
         public int PartID { get; set; }
         public DateTime CreationTime { get; set; }
         public bool IsComplete { get; set; }
+        public int StationID { get; set; }
     }
 }

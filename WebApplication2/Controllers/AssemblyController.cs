@@ -25,18 +25,18 @@ namespace WebApplication2.Controllers
 
         
         [HttpPost]       
-        public bool assemblyPart([FromBody] AssemblyData p)
+        public bool assemblyPart( string sn)
         {
-            if(p != null && p.SerialNumber != null){
+            if(sn != null ){
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     DynamicParameters parameters = new DynamicParameters();                   
-                    parameters.Add("@SerialNumber", p.SerialNumber);
+                    parameters.Add("@SerialNumber", sn);
                     parameters.Add("@now", System.DateTime.Now);
                     var sql = "UPDATE Assembly SET AssembledTime = @now WHERE ID = (SELECT TOP 1 ID FROM  Assembly WHERE AssembledTime IS NULL and SerialNumber = @SerialNumber order by AssemblyOrder)";
                     connection.Execute(sql, parameters); 
-
+               
                     return true;   
                 }
             }else{
@@ -76,7 +76,12 @@ namespace WebApplication2.Controllers
                     DynamicParameters parameters = new DynamicParameters();                  
                     parameters.Add("@SerialNumber", p.SerialNumber);
                     var sql = "SELECT CAST((SELECT Count(*) FROM [Assembly] WHERE [AssembledTime] IS NOT NULL and SerialNumber = @SerialNumber)AS float)/CAST((SELECT Count(*) FROM [Assembly] WHERE SerialNumber = @SerialNumber)AS float) * 100 as result";
-                    int r = connection.QueryFirst<int>(sql, parameters);                       
+                    int r = connection.QueryFirst<int>(sql, parameters);
+                    if (r == 100)
+                    {
+                        p.StationID = 3;
+                        connection.Update(p);
+                    }
                     return r;   
                 }
             }else{

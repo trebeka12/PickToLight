@@ -8,6 +8,8 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using Dapper.Contrib.Extensions;
+
 
 namespace WebApplication2.Controllers
 {
@@ -34,8 +36,17 @@ namespace WebApplication2.Controllers
                     DynamicParameters parameters = new DynamicParameters();       
                     parameters.Add("@SerialNumber", p.SerialNumber);
                     List<Part> result = connection.Query<Part>("SELECT p.* FROM Product pr INNER JOIN BOM b ON pr.PartID = b.ParentID INNER JOIN Part p ON p.ID = b.PartID WHERE pr.SerialNumber = @SerialNumber order by b.AssemblyOrder", parameters).ToList();
-                    return result;
-                }
+
+                    p.StationID = 2;
+                    connection.Update(p);
+                    for (var y = 0; y< result.Count; y++)
+                         {
+                                result[y].Qty = result[y].Qty - 1;
+                                connection.Update(result[y]);
+                          }
+                            return result;
+                     }
+
             }catch(Exception e){
               System.Console.WriteLine(e);
                 return new List<Part>();

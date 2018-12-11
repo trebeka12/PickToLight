@@ -9,9 +9,24 @@
                 dataType: "json",
                 data: { serialnum: selectedSerialNumber }
             }).done(function (response) {
-                let product = response;
-                console.log(product)
-                kittingSN(product);
+                if (response.stationID === 1) {
+                    console.log(response)
+                    kittingSN(response);
+                } else if (response.stationID === 2){
+                    alert("Go to the Assembly station!")
+                    document.getElementById("kittinglabel").innerText = ""
+
+                }
+                else if (response.stationID === 3) {
+                    alert("Go to the Pack station!")
+                    document.getElementById("kittinglabel").innerText = ""
+
+                }
+                else if (response.stationID === 4) {
+                    alert("You are done!")
+                    document.getElementById("kittinglabel").innerText = ""
+s
+                }
             })
     } else {
         console.log(error)
@@ -25,9 +40,8 @@ async function kittingSN(product) {
         method: "POST",
         url: "/Kitting/GetBoms",      
         dataType: "json",
-        data: { p: p }
-    }).done(function (response) {
-        if (response) {
+zalrtars    }).done(function (response) {
+        if (response){
             $.each(response, function (k, v) {
                 $("#bomlist").append($('<li>', {
                     value: v["id"],
@@ -39,11 +53,9 @@ async function kittingSN(product) {
                 url: "/Kitting/InsertToPTL",
                 dataType: "json",
                 data: { p: response }
-            }).done(function (response) {
-                document.getElementById("kittinglabel").innerText = "BOM list loaded." 
-            })       
-        } else {
-            document.getElementById("kittinglabel").innerText = "Something went wrong..."
+            }).done(function () {
+                document.getElementById("kittinglabel").innerText = "BOM list loaded."
+                })
         }
    })
 }

@@ -3,6 +3,7 @@ using WebApplication2.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -42,6 +43,8 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public Part getPartByPN(string partnum)
         {
+            try
+            {
                 if (partnum != null && partnum.Length > 0)
                 {
                     using (SqlConnection connection = new SqlConnection(connectionString))
@@ -58,6 +61,11 @@ namespace WebApplication2.Controllers
                 {
                     return null;
                 }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
         
 
@@ -67,7 +75,8 @@ namespace WebApplication2.Controllers
                 Product pr = new Product();
                 pr.SerialNumber=System.DateTime.Now.ToString("yyyyMMddHHmmss");
                 pr.PartID=param;
-	            pr.CreationTime=System.DateTime.Now;    
+	            pr.CreationTime=System.DateTime.Now;
+                pr.StationID = 1;
                 var id = connection.Insert(pr);               
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@SerialNumber", pr.SerialNumber);
@@ -77,6 +86,29 @@ namespace WebApplication2.Controllers
 
                 return connection.Get<Product>(id);
             }  
+        }
+
+        [HttpPost]
+        public bool fillPart(string p, int quantity)
+        {
+            if (p != null && quantity != 0)
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@Qty", quantity);
+                    parameters.Add("@PartNumber", p);
+                    var sql = "UPDATE Part SET Qty= Qty+@Qty WHERE Code=@PartNumber";
+                    connection.Execute(sql, parameters);
+
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

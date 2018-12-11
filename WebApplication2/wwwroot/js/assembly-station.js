@@ -1,4 +1,5 @@
-﻿
+﻿document.getElementById("assyProgress").value = 0;
+let selectedProduct;
 
 async function readBOMTap() {
     let selectedSerialNumber = document.getElementById("assSerialNumber").value
@@ -9,9 +10,20 @@ async function readBOMTap() {
             url: "/Product/getProductBySN",
             dataType: "json",
             data: { serialnum: selectedSerialNumber }
-        }).done(async function (response) {
-            let product = await readNextPart(response);
-            return product;
+        }).done(function (response) {
+            selectedProduct = response;
+            if (response.stationID === 1) {
+                alert("Go to the Kitting station!")
+            }
+            if (response.stationID === 2) {
+                console.log(response)
+                readNextPart(response);
+            } else if (response.stationID === 3) {
+                alert("Go to the Pack station!")
+            }
+            else if (response.stationID === 4) {
+                alert("You are done!")
+            }
         })
     } else {
             document.getElementById("nextpartlabel").innerText = "Invalid SerialNumber! - " + document.getElementById("partNumber").value;
@@ -19,55 +31,62 @@ async function readBOMTap() {
     }
 }
 
-
-async function readNextPart(product) {
+  function readNextPart(product) {
     let p = product;
        $.ajax({
          method: "POST",
-         url: "/Assembly/getNextBOM",
+         url: "/Assembly/getProgress",
          dataType: "json",
          data: { p: p }
-      }).done(function (response) {
-          if (response != null) {
-              document.getElementById("nextpartlabel").innerText = "Read the code of  " + response.partName + "  part!";
-              document.getElementById("partNumber").innerText = "";
-          } else {
-              document.getElementById("nextpartlabel").innerText = "BOM is complete-";
-              document.getElementById("partNumber").innerText = "";
-          }
+      }).done( function (response) {
+          document.getElementById("assyProgress").style.width="response%"
+          getNextPart(p);
         }
       )
 }
 
-
- function readPartTap() {
-    let selectedPart =  getPart();
-    if (selectedPart != null) {
-        if (document.getElementById("assSerialNumber").value == null) {
-            document.getElementById("partlabel").innerText = "Read the SerialNumber first!";
-            document.getElementById("partNumber").value = "";
-        }
-        if (document.getElementById("partNumber").value != selectedPart) {
-            document.getElementById("partlabel").innerText = "Partcode is wrong!";
-            document.getElementById("partNumber").value = "";
-        } else {
-            if (document.getElementById("assSerialNumber").value != null && selectedPart != null) {
-                console.log("ok")
-            }
-        }
-    } else {
-        console.log("error")
-    }
-}
-
-async function getPart() {
-    let selectedPN = document.getElementById("partNumber").value;
+ function getNextPart(p) {
     $.ajax({
         method: "POST",
-        url: "/Part/getPartByPN",
+        url: "/Assembly/getNextBom",
         dataType: "json",
-        data: { partnum: selectedPN }
+        data: { p: p }
     }).done(function (response) {
+        console.log(response.code)
+        document.getElementById("nextpartlabel").innerText = "Read the code of  " + response.partName + " part!";
+        document.getElementByID("partNumber").value = "";
         return response.code;
     })
 }
+
+
+function readPartTap() {
+
+    var d = $.Deferred();
+    $.ajax({
+        method: "POST",
+        url: "/Assembly/assemblyPart",
+        dataType: "json",
+        data: { sn: document.getElementById("assSerialNumber").value }
+    }).done(function (response) {
+        console.log(response);
+        getNextPart(selectedProduct);
+        d.resolve(response);
+        return response
+        })
+
+
+      //let selectedPart= getPart(document.getElementById("partNumber").value);
+     // console.log(selectedPart)
+}
+
+
+
+function ajaxStart() {
+    $("#imgProg").show();
+    $("#imgProg").css("display", "block");
+};
+function ajaxStop() {
+    $("#imgProg").hide();
+    $("#imgProg").css("display", "none");
+};

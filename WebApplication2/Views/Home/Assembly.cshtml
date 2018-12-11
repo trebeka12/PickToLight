@@ -3,6 +3,7 @@
 }
 <h2>@ViewData["Title"]</h2>
 
+<div id="imgProg" style="display:none;width:69px;height:89px;position:absolute;top:50%;left:50%;padding:2px; z-index:10"><img src="~/images/ajax-loader.gif" width="64" height="64" /><br>Loading..</div>
 
 
 <div class="card">
@@ -15,7 +16,7 @@
         <input type="text" class="form-control" id="assSerialNumber" placeholder="Serial number">
     </div>
     <div>
-        <button type="button"  onclick="readBOMTap()" class="btn btn-secondary">Start</button>
+        <button type="button" onclick="readBOMTap()" class="btn btn-secondary">Start</button>
         <span id="snlabel"></span>
     </div>
     <div class="second">
@@ -27,19 +28,23 @@
 
 
 
-<div class="card">
-    <div class="progress">
-        <div class="progress-bar bg-success" id= "assyProgress" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
-</div>
+
 
 <div class="card">
-    <div id="partreaddiv">
+    <div class="form-group" id="partreaddiv">
         <h3 id="nextpartlabel"></h3>
         <input type="text" class="form-control" id="partNumber" placeholder="Part number" on-keyup="_txtPartKeypress">
-        <button type="button" id="readPartTap" onclick="readPartTap()" class="btn btn-secondary" >OK</button>
+    </div>
+    <div>
+        <button type="button" id="readPartTap" onclick="readPartTap()" class="btn btn-secondary">OK</button>
         <span id="partlabel"></span>
     </div>
 </div>
+<div class="card">
+    <div class="progress">
+        <div class="progress-bar bg-success" id="assyProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</div>
+
 
 <script src="~/js/assembly-station.js"></script>

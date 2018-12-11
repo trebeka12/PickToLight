@@ -11,10 +11,20 @@
             data: { serialnum: selectedSerialNum }
         }).done(function (response) {
             console.log(response)
-            if (response.isComplete === true) {
-                document.getElementById("packlabel").innerText = "Pack is complete yet! ( SN + " + response.serialNumber + ")";
-            } else {
+            if (response.stationID === 1) {
+                alert("Go to the Kitting station!")
+                document.getElementById("packlabel").innerText = "" 
+            } else if (response.stationID === 2) {
+                alert("Go to the Assembly station!")
+                document.getElementById("packlabel").innerText = "" 
+            }
+            if (response.stationID === 3) {
+                console.log(response)
                 packSN(response);
+            } 
+            else if (response.stationID === 4) {
+                document.getElementById("packlabel").innerText = "Pack is complete yet! ( SN + " + response.serialNumber + ")"
+                document.getElementById("homeButton").disabled = false
             }
         })
     } else {
@@ -32,5 +42,6 @@ async function packSN(product) {
         data: { s: s }
     }).done(function (response) {
         document.getElementById("packlabel").innerText = "Pack is completed. ( SN + " + response.serialNumber + ")";
+        document.getElementById("homeButton").disabled = false
     })
 }

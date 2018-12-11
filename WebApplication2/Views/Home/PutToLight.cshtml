@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Put To Light";
+}
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+
+    <link rel="stylesheet" href="~/css/assembly.css">
+    <div>
+        <h1>Read the Part number:</h1>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="partNum" placeholder="Part number">
+    </div>
+
+    <div>
+        <h1>Quantity:</h1>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="qty" placeholder="Quantity">
+    </div>
+
+    <div>
+        <button type="button" onclick="fillPartTap()" class="btn btn-secondary">Save</button>
+        <span id="snlabel"></span>
+    </div>
+
+
+
+</div>
+
+<script src="~/js/put_to_light.js"></script>
