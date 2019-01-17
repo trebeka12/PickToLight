@@ -37,6 +37,7 @@ namespace WebApplication2.Controllers
                     var sql = "UPDATE Assembly SET AssembledTime = @now WHERE ID = (SELECT TOP 1 ID FROM  Assembly WHERE AssembledTime IS NULL and SerialNumber = @SerialNumber order by AssemblyOrder)";
                     connection.Execute(sql, parameters); 
                
+
                     return true;   
                 }
             }else{

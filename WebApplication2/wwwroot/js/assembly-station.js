@@ -16,7 +16,8 @@ async function readBOMTap() {
                 alert("Go to the Kitting station!")
             }
             if (response.stationID === 2) {
-                console.log(response)
+                console.log(response);
+                getImagebySN(response);
                 readNextPart(response);
             } else if (response.stationID === 3) {
                 alert("Go to the Pack station!")
@@ -31,6 +32,19 @@ async function readBOMTap() {
     }
 }
 
+function getImagebySN(p) {
+    $.ajax({
+        method: "POST",
+        url: "/Product/getImageUrlBySN",
+        dataType: "json",
+        data: { p: p }
+    }).done(function (response) {
+        if (response != null) {
+            document.getElementById("productimage").src = "/images/" + response.partName + ".png";
+        }
+    })
+}
+
   function readNextPart(product) {
     let p = product;
        $.ajax({
@@ -39,7 +53,7 @@ async function readBOMTap() {
          dataType: "json",
          data: { p: p }
       }).done( function (response) {
-          document.getElementById("assyProgress").style.width="response%"
+          document.getElementById("assyProgress").style.width = "response%";
           getNextPart(p);
         }
       )
@@ -55,6 +69,7 @@ async function readBOMTap() {
         console.log(response.code)
         document.getElementById("nextpartlabel").innerText = "Read the code of  " + response.partName + " part!";
         document.getElementByID("partNumber").value = "";
+        document.getElementByID("partNumber").innerText = " ";
         return response.code;
     })
 }
@@ -79,14 +94,3 @@ function readPartTap() {
       //let selectedPart= getPart(document.getElementById("partNumber").value);
      // console.log(selectedPart)
 }
-
-
-
-function ajaxStart() {
-    $("#imgProg").show();
-    $("#imgProg").css("display", "block");
-};
-function ajaxStop() {
-    $("#imgProg").hide();
-    $("#imgProg").css("display", "none");
-};

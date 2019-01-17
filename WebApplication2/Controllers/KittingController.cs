@@ -33,19 +33,52 @@ namespace WebApplication2.Controllers
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    DynamicParameters parameters = new DynamicParameters();       
+                    DynamicParameters parameters = new DynamicParameters();
                     parameters.Add("@SerialNumber", p.SerialNumber);
-                    List<Part> result = connection.Query<Part>("SELECT p.* FROM Product pr INNER JOIN BOM b ON pr.PartID = b.ParentID INNER JOIN Part p ON p.ID = b.PartID WHERE pr.SerialNumber = @SerialNumber order by b.AssemblyOrder", parameters).ToList();
+                    List<Part> required = connection.Query<Part>("SELECT p.PartName, SUM(1) AS Qty FROM Product pr INNER JOIN BOM b ON pr.PartID = b.ParentID INNER JOIN Part p ON p.ID = b.PartID WHERE pr.SerialNumber = @SerialNumber group by p.PartName", parameters).ToList();
+                    List<Part> available = connection.Query<Part>("SELECT PartName, Qty FROM Part").ToList();
+
+                    foreach (var item in required)
+                    {
+                        foreach (var a in available)
+                        {
+                            if (item.PartName == a.PartName && item.Qty > a.Qty) { return null; }
+                        }
+
+                    }
+
+
+                    foreach (var item in required)
+                    {
+                        DynamicParameters parameters2 = new DynamicParameters();
+                        parameters2.Add("@Qty", item.Qty);
+                        parameters2.Add("@PN", item.PartName);
+                        var sql = "UPDATE Part SET Qty = Qty-@Qty WHERE PartName = @PN";
+                        connection.Execute(sql, parameters2);
+
+                    }
+
+                    //for (var i = 0; i < result.Count; i++)
+                    //{
+
+                    //    if (result[i].Qty >= 1)
+                    //    {
+                    //            result[i].Qty = result[i].Qty - 1;
+                    //            connection.Update(result[i]);     
+
+                    //    }
+                    //    else
+                    //    {
+                    //        return null;
+                    //    }
+                    //}
 
                     p.StationID = 2;
                     connection.Update(p);
-                    for (var y = 0; y< result.Count; y++)
-                         {
-                                result[y].Qty = result[y].Qty - 1;
-                                connection.Update(result[y]);
-                          }
-                            return result;
-                     }
+                    List<Part> result = connection.Query<Part>("SELECT p.* FROM Product pr INNER JOIN BOM b ON pr.PartID = b.ParentID INNER JOIN Part p ON p.ID = b.PartID WHERE pr.SerialNumber = @SerialNumber order by b.AssemblyOrder", parameters).ToList();
+
+                    return result;
+                }
 
             }catch(Exception e){
               System.Console.WriteLine(e);

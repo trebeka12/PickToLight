@@ -23,7 +23,7 @@
                 packSN(response);
             } 
             else if (response.stationID === 4) {
-                document.getElementById("packlabel").innerText = "Pack is complete yet! ( SN + " + response.serialNumber + ")"
+                document.getElementById("packlabel").innerText = "Pack is complete yet! ( SerialNumber: " + response.serialNumber + ")"
                 document.getElementById("homeButton").disabled = false
             }
         })
