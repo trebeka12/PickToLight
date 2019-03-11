@@ -8,7 +8,6 @@ async function loadProduct() {
             url: "/Part/GetProducts",
             dataType: "json"
         }).done(function (response) {
-            //clear some input boxes
             if (response) {
                 $.each(response, function (k, v) {
                     $("#productSelector").append($('<option>', {

@@ -3,7 +3,7 @@ let selectedProduct;
 
 async function readBOMTap() {
     let selectedSerialNumber = document.getElementById("assSerialNumber").value
-    if (selectedSerialNumber != null & selectedSerialNumber.length > 0) {
+    if (selectedSerialNumber != null & selectedSerialNumber.length === 14) {
         console.log(selectedSerialNumber)
         $.ajax({
             method: "POST",
@@ -27,8 +27,8 @@ async function readBOMTap() {
             }
         })
     } else {
-            document.getElementById("nextpartlabel").innerText = "Invalid SerialNumber! - " + document.getElementById("partNumber").value;
-            document.getElementById("partNumber").innerText = "";       
+        alert("Invalid Serial Number!");
+        document.getElementById("partNumber").innerText = "";       
     }
 }
 
@@ -52,12 +52,18 @@ function getImagebySN(p) {
          url: "/Assembly/getProgress",
          dataType: "json",
          data: { p: p }
-      }).done( function (response) {
-          document.getElementById("assyProgress").style.width = "response%";
-          getNextPart(p);
+       }).done(function (response) {
+           document.getElementById("assyProgress").style.width = response + "%";
+           if (response != 100) {
+               getNextPart(p);
+           }
+           else {
+               alert("Go to the Pack station!")
+           }
         }
       )
 }
+
 
  function getNextPart(p) {
     $.ajax({
@@ -75,22 +81,38 @@ function getImagebySN(p) {
 }
 
 
-function readPartTap() {
+function readPart() {
+        $.ajax({
+            method: "POST",
+            url: "/Assembly/assemblyPart",
+            dataType: "json",
+            data: { sn: document.getElementById("assSerialNumber").value }
+        }).done(function (response) {
+            console.log(response);
+            readNextPart(selectedProduct);
+            document.getElementById("partNumber").value="";
+            return response;
+            })
+}
 
-    var d = $.Deferred();
+function readPartTap() {
+    let pn = document.getElementById("partNumber").value;
     $.ajax({
         method: "POST",
-        url: "/Assembly/assemblyPart",
+        url: "/Assembly/checkPart",
         dataType: "json",
         data: { sn: document.getElementById("assSerialNumber").value }
     }).done(function (response) {
-        console.log(response);
-        getNextPart(selectedProduct);
-        d.resolve(response);
-        return response
-        })
-
-
-      //let selectedPart= getPart(document.getElementById("partNumber").value);
-     // console.log(selectedPart)
+        if (response != null) {
+            console.log(response.code);
+            if (response.code != pn) {
+                alert("Wrong part number!")
+                document.getElementById("partNumber").value = "";
+            } else {
+                readPart();
+            }
+        } else {
+            console.log("error")
+        }
+    })
 }

@@ -11,10 +11,10 @@
     <div>
         <h1>Read the serial number of product!</h1>
         <div class="form-group">
-            <input type="text" class="form-control" id="serialNumber"  placeholder="Serial number">        
+            <input type="text" class="form-control" id="serialNumber" placeholder="Serial number">
         </div>
         <div>
-            <button type="button" id="kittingSNTap" onclick="kittingSNTap()" class="btn btn-secondary" >Kitting</button>
+            <button type="button" id="kittingSNTap" onclick="kittingSNTap()" class="btn btn-secondary">Kitting</button>
             <span id="kittinglabel"></span>
         </div>
     </div>
@@ -26,6 +26,18 @@
     <div>
         <h1>BOM list:</h1>
         <ul class="list-group" id="bomlist"></ul>
+    </div>
+</div>
+
+<div class="card">
+    <link rel="stylesheet" href="~/css/kitting.css">
+    <div>
+        <div>
+            <h1>Put the kitted parts on the scale!</h1>
+        </div>
+        <div>
+            <button type="button" id="check" onclick="getWeight()" class="btn btn-secondary">Check</button>
+        </div>
     </div>
 </div>
 

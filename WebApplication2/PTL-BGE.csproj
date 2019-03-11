@@ -9,7 +9,9 @@
     <PackageReference Include="Dapper" Version="1.50.2" />
     <PackageReference Include="Dapper.Mapper" Version="1.50.1" />
     <PackageReference Include="Dapper.Contrib" Version="1.50.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="OdeToCode.UseNodeModules" Version="1.0.6" />
+    <PackageReference Include="System.IO.Ports" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\src\" />

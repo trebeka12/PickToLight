@@ -41,7 +41,7 @@ async function packSN(product) {
         dataType: "json",
         data: { s: s }
     }).done(function (response) {
-        document.getElementById("packlabel").innerText = "Pack is completed. ( SN + " + response.serialNumber + ")";
+        document.getElementById("packlabel").innerText = "Pack is completed. ( SerialNumber " + response.serialNumber + ")";
         document.getElementById("homeButton").disabled = false
     })
 }

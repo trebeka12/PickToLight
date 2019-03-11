@@ -5,10 +5,9 @@ using System.Data.SqlClient;
 using System;
 using System.Linq;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
-using Dapper.Contrib.Extensions;
+using System.IO.Ports;
 
 
 namespace WebApplication2.Controllers
@@ -18,13 +17,94 @@ namespace WebApplication2.Controllers
         public IDbConnection Connection { get; }
         private readonly AppOptions options;
         private string connectionString;
+        private SerialPort _serialPort = null;         
+        private const int BaudRate = 9600;
+        private const string SerialLine = "COM1";
+        public double partWeight;
+       
 
         public KittingController(IOptions<AppOptions> options)
         {            
-            //Connection.Open();
             this.options = options.Value;
             connectionString = this.options.DefaultConnection;
-        }      
+        }
+
+        public Part getWeightBySN(string sn)
+        {
+            try
+            {
+                if (sn != null && sn.Length > 0)
+                {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@SerialNumber", sn);
+                    var sql = "  SELECT p.* FROM Part p JOIN Product pr ON p.ID=pr.PartID WHERE SerialNumber=@SerialNumber";
+                    Part mypart = connection.QueryFirst<Part>(sql, parameters);
+                    return mypart;
+                }
+              }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public double readWeight()
+        {
+            _serialPort = new SerialPort(SerialLine, BaudRate);
+
+            try
+            {
+                _serialPort.Open();
+                var weight = _serialPort.ReadLine();
+                _serialPort.Close();
+                char[] delimiterchars = { '+', 'g' };
+                string[] weightList = weight.Split(delimiterchars);
+                double partWeight = double.Parse(weightList[1]);
+                return partWeight;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return -1;
+            }
+
+        }
+
+        public bool setWeight(string sn, double w)
+        {
+            try
+            {
+                if (sn != null && sn.Length > 0)
+                {
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        DynamicParameters parameters = new DynamicParameters();
+                        parameters.Add("@SerialNumber", sn);
+                        parameters.Add("@Weight", w);
+                        var sql = "UPDATE Product SET Weight=@Weight, StationID=2 WHERE SerialNumber=@SerialNumber";
+                        connection.Execute(sql, parameters);
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         [HttpPost]      
         public List<Part> GetBoms( Product p)
@@ -57,24 +137,7 @@ namespace WebApplication2.Controllers
                         connection.Execute(sql, parameters2);
 
                     }
-
-                    //for (var i = 0; i < result.Count; i++)
-                    //{
-
-                    //    if (result[i].Qty >= 1)
-                    //    {
-                    //            result[i].Qty = result[i].Qty - 1;
-                    //            connection.Update(result[i]);     
-
-                    //    }
-                    //    else
-                    //    {
-                    //        return null;
-                    //    }
-                    //}
-
-                    p.StationID = 2;
-                    connection.Update(p);
+                
                     List<Part> result = connection.Query<Part>("SELECT p.* FROM Product pr INNER JOIN BOM b ON pr.PartID = b.ParentID INNER JOIN Part p ON p.ID = b.PartID WHERE pr.SerialNumber = @SerialNumber order by b.AssemblyOrder", parameters).ToList();
 
                     return result;
@@ -129,5 +192,6 @@ namespace WebApplication2.Controllers
                 return false;
             }
         }
+
     }
 }

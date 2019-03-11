@@ -1,14 +1,21 @@
 ﻿function fillPartTap() {
     var p = document.getElementById("partNum").value;
+    var qty = document.getElementById("qty").value;
     $.ajax({
         method: "POST",
         url: "/Part/getPartByPN",
         dataType: "json",
         data: { partnum: p }
     }).done(function (response) {
-        console.log(response)
-        
-        fillPart(response.code, document.getElementById("qty").value);
+        var partnum = response.code;
+        $.ajax({
+            method: "POST",
+            url: "/Part/InsertToPTL",
+            dataType: "json",
+            data: { p: response, qty: qty }
+        }).done(function(){
+            fillPart(partnum, qty);
+        })      
     })
 }
 

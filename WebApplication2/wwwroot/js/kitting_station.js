@@ -1,7 +1,6 @@
 ﻿async function kittingSNTap() {
-    document.getElementById("kittinglabel").innerText = "loading..." 
     let selectedSerialNumber = document.getElementById("serialNumber").value
-    if (selectedSerialNumber != null & selectedSerialNumber.length > 0) {            
+    if (selectedSerialNumber != null & selectedSerialNumber.length === 14) {            
         console.log(selectedSerialNumber)
             $.ajax({
                 method: "POST",
@@ -21,13 +20,71 @@
                     document.getElementById("kittinglabel").innerText = ""
                 }
                 else if (response.stationID === 4) {
-                    alert("You are done!")
+                    alert("Pack is complete!")
                     document.getElementById("kittinglabel").innerText = ""
 s                }
             })
     } else {
-        console.log(error)
+        alert("Invalid serial number!");
+        document.getElementById("kittinglabel").innerText = "" 
     }
+}
+
+async function getWeight() {
+    var sn = document.getElementById("serialNumber").value;
+    if (sn.length === 0) {
+        alert("Read the serial number of product!")
+    } else {
+        $.ajax({
+            method: "POST",
+            url: "/Kitting/getWeightBySN",
+            dataType: "json",
+            data: { sn: sn }
+        }).done(function (response) {
+            var tWeight = response.weight;
+            readWeight(tWeight);
+        })
+    }
+}
+
+async function readWeight(tWeight){
+    var sn = document.getElementById("serialNumber").value;
+    $.ajax({
+        method: "POST",
+        url: "/Kitting/readWeight",
+        dataType: "json",
+        data: { sn: sn }
+    }).done(function (response) {
+        var weight = response;
+        if (weight === -1 || tWeight === 0) {
+            console.log("Error");
+        }
+        else if(weight >= tWeight + 1 || weight <= tWeight - 1) {
+            alert("Your weight (" + weight + "g) is out of target weight (" + tWeight +  "g) !")
+        }
+        else if (weight === 0) {
+            alert("Put the kitted parts on the scale!")
+        }
+        else {
+            setWeight(weight);
+        }
+    })    
+}
+
+async function setWeight(w) {
+    var sn = document.getElementById("serialNumber").value;
+    $.ajax({
+        method: "POST",
+        url: "/Kitting/setWeight",
+        dataType: "json",
+        data: { sn: sn, w:w }
+    }).done(function () {
+        if (response = true) {
+            alert("Go to the Assembly station!")
+        } else {
+            console.log("error")
+        }
+    })
 }
 
 async function kittingSN(product) {
