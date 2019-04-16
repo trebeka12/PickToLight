@@ -1,7 +1,7 @@
 using System;
 using Dapper.Contrib.Extensions;
 
-namespace WebApplication2.Models
+namespace PickToLight.Models
 {
     [Table("Product")]
     public class Product

@@ -1,7 +1,7 @@
 
 using System;
 
-namespace WebApplication2.Models {
+namespace PickToLight.Models {
 	public class Assembly {
 		public int ID { get; set; }
 		public string SerialNumber { get; set; }			

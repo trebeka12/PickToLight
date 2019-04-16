@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Models;
+using PickToLight.Models;
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
 using Microsoft.Extensions.Options;
 using Dapper.Contrib.Extensions;
 
-namespace WebApplication2.Controllers
+namespace PickToLight.Controllers
 {
     public class AssemblyController : Controller
     {

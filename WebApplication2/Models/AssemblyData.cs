@@ -1,4 +1,4 @@
-namespace WebApplication2.Models
+namespace PickToLight.Models
 {
    public class AssemblyData {
         public string SerialNumber;

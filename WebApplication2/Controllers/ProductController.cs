@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Models;
+using PickToLight.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using Dapper.Contrib.Extensions;
 
- namespace WebApplication2.Controllers
+ namespace PickToLight.Controllers
 {  
     public class ProductController : Controller{
         public IDbConnection Connection { get; }

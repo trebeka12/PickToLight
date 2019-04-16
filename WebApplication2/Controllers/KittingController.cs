@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Models;
+using PickToLight.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 
 
-namespace WebApplication2.Controllers
+namespace PickToLight.Controllers
 {
     public class KittingController : Controller
     {

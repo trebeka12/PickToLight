@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace WebApplication2.Controllers {
+namespace PickToLight.Controllers {
 
     public class LabelController : Controller {
 		private readonly IHostingEnvironment env;

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Models;
+using PickToLight.Models;
 
-namespace WebApplication2.Controllers
+namespace PickToLight.Controllers
 {
     public class HomeController : Controller
     {
