@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTL-BGE", "WebApplication2\PTL-BGE.csproj", "{0DA2484D-F642-45AF-868C-63A07EF06D65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTL", "WebApplication2\PTL.csproj", "{0DA2484D-F642-45AF-868C-63A07EF06D65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
